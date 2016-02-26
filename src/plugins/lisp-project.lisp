@@ -35,7 +35,11 @@ See LICENSE for more information
 		   :executable t
 		   :toplevel (find-symbol (string-upcase (or (get-extra project :main-function) "main")) project-name)
 		   :compression t
-		   :purify t)))))
+		   :purify t))))
+    (add-task project "help"
+	      (lambda ($)
+		(format t "~a:~a task list~%" (name project) (get-extra project :version))
+		(loop for i in (tasks project) do (format t "~2a~a~%" "" (name i))))))
 
   (add-task-dependency project "dist" "test")
   (add-task-dependency project "test" "load-system")

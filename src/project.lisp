@@ -70,7 +70,12 @@ See LICENSE for more information
 (defmethod run-project-task ((project project) (task string))
   (flet ((task-name-matches (task-ref)
 	   (string= (name task-ref) task)))
-    (run-task (find-if #'task-name-matches (tasks project)))))
+    (let ((task-ref (find-if #'task-name-matches (tasks project))))
+      (cond
+	((null task-ref)
+	 (format t "[ERROR] task ~a does not exist on project~%" task)
+	 (format t "[INFO] do 'clpom help' for a task list~% "))
+	(t (run-task task-ref))))))
 
 (defmethod register-plugin ((project project) (plugin function))
   (apply plugin (list project)))
