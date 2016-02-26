@@ -34,7 +34,8 @@ See LICENSE for more information
 		   (format nil "build/~a/~a" version (name project))
 		   :executable t
 		   :toplevel (find-symbol (string-upcase (or (get-extra project :main-function) "main")) project-name)
-		   :compression t)))))
+		   :compression t
+		   :purify t)))))
 
   (add-task-dependency project "dist" "test")
   (add-task-dependency project "test" "load-system")

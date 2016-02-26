@@ -5,4 +5,4 @@ See LICENSE for more information
 |#
 
 (defpackage #:clpom
-  (:use :cl :ql))
+  (:use :cl :ql :lisp-unit))

@@ -17,4 +17,4 @@
                (:file "src/plugins/lisp-project")
                (:file "src/dsl")
                (:file "src/cli"))
-  :depends-on ("quicklisp"))
+  :depends-on ("quicklisp" "lisp-unit"))
