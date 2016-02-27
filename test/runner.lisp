@@ -12,7 +12,7 @@ See LICENSE for more information
 (define-test check-environment
   (assert-equal 0 0)
   (assert-equal "X" "X")
-  (assert-equal nil nil)
+  (assert-equal t t)
   (assert-equal 'a 'a))
 
 
@@ -33,10 +33,7 @@ See LICENSE for more information
 	(cond
 	  ((> error-count 0)
 	   (log-error "~d test~:p failed" error-count)
+	   (print-failures r)
 	   (print-errors r)
-	   (loop
-	      for i from 0
-	      for e in (append (failed-tests r) (error-tests r))
-	      do (log-error "~d: ~a" i (format nil "~a" e)))
 	   nil)
 	  (t t))))))
