@@ -73,8 +73,8 @@ See LICENSE for more information
     (let ((task-ref (find-if #'task-name-matches (tasks project))))
       (cond
 	((null task-ref)
-	 (format t "[ERROR] task ~a does not exist on project~%" task)
-	 (format t "[INFO] do 'clpom help' for a task list~% "))
+	 (log-error "Task ~a does not exist on project" task)
+	 (log-info "Do '~a' for a task list" "clpom help"))
 	(t (run-task task-ref))))))
 
 (defmethod register-plugin ((project project) (plugin function))

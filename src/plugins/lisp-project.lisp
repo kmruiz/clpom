@@ -6,6 +6,10 @@ See LICENSE for more information
 
 (in-package #:clpom)
 
+(defmacro with-output-supression (&body body)
+  `(with-open-stream (*standard-output* (make-broadcast-stream))
+     ,@body))
+
 (defun lisp-project (project)
   (require :asdf)
 
@@ -13,7 +17,11 @@ See LICENSE for more information
     (add-task project "update"
 	      (lambda ($)
 		(let ((deps (get-extra project :dependencies)))
-		  (loop for i in deps do (ql:quickload i)))))
+		  (loop for i in deps do (load-dependency i)))))
+    (add-task project "upgrade"
+	      (lambda ($)
+		(with-output-supression
+		  (ql:update-all-dists))))
     (add-task project "load-system"
 	      (lambda ($)
 		(load (format nil "~a.asd" (name project)) :verbose nil :print nil)
@@ -25,7 +33,11 @@ See LICENSE for more information
 		    (load runner)
 		    (let ((d (make-pathname :directory '(:relative "test") :name :wild :type "lisp")))
 		      (mapcar (lambda (x) (unless (search "runner" (namestring x)) (load x))) (directory d))
-		      (funcall (symbol-function (find-symbol "RUN-TESTS!" project-name))))))))
+		      (let ((r (funcall (symbol-function (find-symbol "RUN-TESTS!" project-name)))))
+			(cond
+			  ((null r)
+			   (sb-ext:exit :code 1))
+			  (t t))))))))
     (add-task project "dist"
 	      (lambda ($)
 		(let ((version (or (get-extra project :version) "default")))
@@ -33,12 +45,14 @@ See LICENSE for more information
 		  (sb-ext:save-lisp-and-die
 		   (format nil "build/~a/~a" version (name project))
 		   :executable t
-		   :toplevel (find-symbol (string-upcase (or (get-extra project :main-function) "main")) project-name)
+		   :toplevel (find-symbol (string-upcase
+					   (or (get-extra project :main-function) "main")) project-name)
 		   :compression t
 		   :purify t))))
     (add-task project "help"
 	      (lambda ($)
-		(format t "~a:~a task list~%" (name project) (get-extra project :version))
+		(log-info "~a:~a task list" (name project) (get-extra project :version))
+		(log-info "~a" (get-extra project :description))
 		(loop for i in (tasks project) do (format t "~2a~a~%" "" (name i))))))
 
   (add-task-dependency project "dist" "test")

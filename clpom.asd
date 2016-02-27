@@ -12,9 +12,11 @@
   :description "A project manager for Common Lisp"
   :serial t
   :components ((:file "src/package")
+	       (:file "src/logger")
+	       (:file "src/dependency-loader")
                (:file "src/task")
                (:file "src/project")
                (:file "src/plugins/lisp-project")
                (:file "src/dsl")
                (:file "src/cli"))
-  :depends-on ("quicklisp" "lisp-unit"))
+  :depends-on ("quicklisp" "lisp-unit" "cl-ansi-text"))
