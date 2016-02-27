@@ -6,14 +6,31 @@ See LICENSE for more information
 
 (in-package #:clpom)
 
-(defmacro with-output-supression (&body body)
-  `(with-open-stream (*standard-output* (make-broadcast-stream))
-     ,@body))
+(defun run-tests! (project-name)
+  (use-debugger :ask)
+  (let ((start-time (get-internal-run-time)))
+    (let* ((r (with-output-supression (run-tests :all project-name)))
+	   (error-count (+ (or (length (failed-tests r)) 0) (or (length (error-tests r)) 0))))
+      (let ((end-time (get-internal-run-time)))
+	(write-tap-to-file r "build/test-results.tap")
+	(log-info "Ran ~d test~:p in ~f second~:p"
+		  (length (test-names r)) (/ (- end-time start-time) internal-time-units-per-second))
+	(cond
+	  ((> error-count 0)
+	   (log-error "~d test~:p failed" error-count)
+	   (print-failures r)
+	   (print-errors r)
+	   nil)
+	  (t t))))))
 
 (defun lisp-project (project)
   (require :asdf)
 
   (let ((project-name (intern (string-upcase (name project)))))
+    (add-task project "clean"
+	      (lambda ($)
+		(when (probe-file "build")
+		  (sb-ext:delete-directory "build" :recursive t))))
     (add-task project "update"
 	      (lambda ($)
 		(let ((deps (get-extra project :dependencies)))
@@ -28,16 +45,13 @@ See LICENSE for more information
 		(asdf:load-system project-name)))
     (add-task project "test"
 	      (lambda ($)
-		(let ((runner (or (get-extra project :lispunit-runner) "test/runner.lisp")))
-		  (when (probe-file runner)
-		    (load runner)
-		    (let ((d (make-pathname :directory '(:relative "test") :name :wild :type "lisp")))
-		      (mapcar (lambda (x) (unless (search "runner" (namestring x)) (load x))) (directory d))
-		      (let ((r (funcall (symbol-function (find-symbol "RUN-TESTS!" project-name)))))
-			(cond
-			  ((null r)
-			   (sb-ext:exit :code 1))
-			  (t t))))))))
+		(let ((d (make-pathname :directory '(:relative "test") :name :wild :type "lisp")))
+		  (mapcar (lambda (x) (unless (search "runner" (namestring x)) (load x))) (directory d))
+		  (let ((r (run-tests! project-name)))
+		    (cond
+		      ((null r)
+		       (sb-ext:exit :code 1))
+		      (t t))))))
     (add-task project "dist"
 	      (lambda ($)
 		(let ((version (or (get-extra project :version) "default")))
@@ -53,7 +67,9 @@ See LICENSE for more information
 	      (lambda ($)
 		(log-info "~a:~a task list" (name project) (get-extra project :version))
 		(log-info "~a" (get-extra project :description))
-		(loop for i in (tasks project) do (format t "~2a~a~%" "" (name i))))))
+		(loop
+		   for i in (sort (copy-list (map 'list #'name (tasks project))) #'string<)
+		   do (format t "~2a~a~%" "" i)))))
 
   (add-task-dependency project "dist" "test")
   (add-task-dependency project "test" "load-system")

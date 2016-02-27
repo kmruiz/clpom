@@ -8,6 +8,11 @@ See LICENSE for more information
 
 (defconstant +default-color+ cl-ansi-text:+reset-color-string+)
 
+(defmacro with-output-supression (&body body)
+  `(with-open-stream (*standard-output* (make-broadcast-stream))
+     (with-open-stream (*error-output* (make-broadcast-stream))
+       ,@body)))
+
 (defun %wrap-on-color (color text)
   (format nil "~a~a~a"
 	  (cl-ansi-text:make-color-string color)
