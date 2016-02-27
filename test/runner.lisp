@@ -18,7 +18,7 @@ See LICENSE for more information
 
 (defmacro with-output-supression (&body body)
   `(with-open-stream (*standard-output* (make-broadcast-stream))
-     (with-open-stream (*trace-output* (make-broadcast-stream))
+     (with-open-stream (*error-output* (make-broadcast-stream))
        ,@body)))
 
 (defun run-tests! ()

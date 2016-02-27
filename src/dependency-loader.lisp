@@ -11,6 +11,6 @@ See LICENSE for more information
 (defgeneric load-dependency (dependency))
 
 (defmethod load-dependency ((dependency symbol))
-  (log-info "Loading dependency ~a" dependency)
+  (log-info "Loading dependency ~a" (%wrap-on-color :cyan (string-downcase dependency)))
   (with-open-stream (*standard-output* (+ql-output+))
     (ql:quickload dependency)))

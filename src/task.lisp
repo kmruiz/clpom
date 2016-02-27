@@ -57,7 +57,7 @@ See LICENSE for more information
 (defmethod run-task ((task task) &optional first-value)
   (let ((done-list))
     (labels ((do-task-step (task)
-	       (log-info "Running task ~a" (name task))
+	       (log-info "Running task ~a" (%wrap-on-color :magenta (name task)))
 	       (reduce (lambda (ret-val step) (do-step step ret-val)) (steps task) :initial-value first-value))
 	     (apply-task-deps (task)
 	       (dolist (dep-task (dependencies task))

@@ -20,7 +20,7 @@ See LICENSE for more information
 	(log-error "Could not find file named ~a" ,at-file))
        (t
 	(let ((,project (eval (read-from-string project-repr))))
-	  (log-info "Current project ~a" (name ,project))
+	  (log-info "Current project ~a" (%wrap-on-color :cyan (name ,project)))
 	  ,@body)))))
 
 (defun do-tasks-at-file (file args)
@@ -36,4 +36,4 @@ See LICENSE for more information
 	  (args (rest sb-ext:*posix-argv*)))
       (do-tasks-at-file "project.clpom.lisp" args)
       (let ((end-time (get-internal-run-time)))
-	(log-done "Everyhing in ~f seconds" (/ (- end-time start-time) internal-time-units-per-second))))))
+	(log-done "Everyhing in ~f second~:p" (/ (- end-time start-time) internal-time-units-per-second))))))
