@@ -31,7 +31,7 @@ See LICENSE for more information
 	       (write code :stream stream)))))))
 
 (defun run-generator (name)
-  (log-info "Where are going to generate a project of type '~a'" name)
+  (log-info "We are going to generate a project of type '~a'" name)
   (log-info "But first I need to ask you few questions about it")
   (log-info "How is it called?")
   (let ((project-name (read-line)))
