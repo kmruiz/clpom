@@ -1,6 +1,6 @@
 (defproject ("clpom")
   (plugin #'lisp-project)
-  (define :version "0.1.2")
+  (define :version "0.2.0")
   (define :description
       "Basic Project Object Model management"
     )

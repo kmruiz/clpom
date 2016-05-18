@@ -34,6 +34,10 @@ See LICENSE for more information
   (progn
     (let ((start-time (get-internal-run-time))
 	  (args (rest sb-ext:*posix-argv*)))
-      (do-tasks-at-file "project.clpom.lisp" args)
-      (let ((end-time (get-internal-run-time)))
-	(log-done "Everyhing in ~f second~:p" (/ (- end-time start-time) internal-time-units-per-second))))))
+      (cond
+	((string= (first args) "--init")
+	    (run-generator (second args)))
+	(t 
+	 (do-tasks-at-file "project.clpom.lisp" args)
+	 (let ((end-time (get-internal-run-time)))
+	   (log-done "Everyhing in ~f second~:p" (/ (- end-time start-time) internal-time-units-per-second))))))))

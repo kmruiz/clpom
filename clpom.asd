@@ -5,7 +5,7 @@
 
 (defsystem clpom
   :name "clpom"
-  :version "0.0.1"
+  :version "0.2.0"
   :maintainer "Kevin Mas Ruiz"
   :author "Kevin Mas Ruiz <masruizkevin@gmail.com>"
   :licence "Apache2 License (view LICENSE for more info)"
@@ -18,5 +18,7 @@
                (:file "src/project")
                (:file "src/plugins/lisp-project")
                (:file "src/dsl")
+	       (:file "src/init/cl-project")
+	       (:file "src/generator")
                (:file "src/cli"))
   :depends-on ("quicklisp" "lisp-unit" "cl-ansi-text"))

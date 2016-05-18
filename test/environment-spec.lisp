@@ -6,7 +6,6 @@ See LICENSE for more information
 
 (in-package :clpom)
 
-
 (define-test check-environment
   (assert-equal 0 0)
   (assert-equal "X" "X")
