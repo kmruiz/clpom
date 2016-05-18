@@ -36,8 +36,10 @@ See LICENSE for more information
 	  (args (rest sb-ext:*posix-argv*)))
       (cond
 	((string= (first args) "--init")
-	    (run-generator (second args)))
+	 (run-generator (second args)))
+	((string= (first args) "--install")
+	 (install-dependency (intern (string-upcase (format nil "~a" (second args))) :keyword)))
 	(t 
 	 (do-tasks-at-file "project.clpom.lisp" args)
 	 (let ((end-time (get-internal-run-time)))
-	   (log-done "Everyhing in ~f second~:p" (/ (- end-time start-time) internal-time-units-per-second))))))))
+	   (log-done "Everything in ~f second~:p" (/ (- end-time start-time) internal-time-units-per-second))))))))

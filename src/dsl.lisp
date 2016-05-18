@@ -21,3 +21,4 @@ See LICENSE for more information
 	      (register-plugin project plugin)))
        ,@body)
      project))
+
