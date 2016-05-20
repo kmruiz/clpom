@@ -24,8 +24,6 @@ See LICENSE for more information
 	  (t t))))))
 
 (defun lisp-project (project)
-  (require :asdf)
-
   (let ((project-name (intern (string-upcase (name project)))))
     (add-task project "clean"
 	      (lambda ($)

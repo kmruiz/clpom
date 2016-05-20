@@ -1,7 +1,5 @@
-(defproject ("clpom")
-  (plugin #'lisp-project)
-  (define :version "1.0.0")
-  (define :description
-      "Basic Project Object Model management"
-    )
-  (define :dependencies '(:lisp-unit :cl-ansi-text)))
+(DEFPROJECT ("clpom")
+  (PLUGIN #'LISP-PROJECT)
+  (DEFINE :VERSION "1.0.1")
+  (DEFINE :DESCRIPTION "Basic Project Object Model management")
+  (DEFINE :DENDENCIES (LIST :LISP-UNIT :CL-ANSI-TEXT :CL-JSON)))
