@@ -1,5 +1,8 @@
-(DEFPROJECT ("clpom")
-  (PLUGIN #'LISP-PROJECT)
-  (DEFINE :VERSION "1.0.1")
-  (DEFINE :DESCRIPTION "Basic Project Object Model management")
-  (DEFINE :DENDENCIES (LIST :LISP-UNIT :CL-ANSI-TEXT :CL-JSON)))
+(defproject ("clpom")
+  (plugin #'lisp-project)
+  (define :version "1.1.0")
+  (define :description "Basic Project Object Model management")
+  (define :dendencies (list :lisp-unit :cl-ansi-text :cl-json))
+  (task :name "clean" :does
+	(lambda (x) (sh "rm -rf **/*~~")))
+  (requires :task "update" :the-dependency "clean"))

@@ -5,7 +5,7 @@
 
 (defsystem clpom
   :name "clpom"
-  :version "1.0.1"
+  :version "1.1.0"
   :maintainer "Kevin Mas Ruiz"
   :author "Kevin Mas Ruiz <masruizkevin@gmail.com>"
   :licence "Apache2 License (view LICENSE for more info)"
@@ -20,5 +20,15 @@
                (:file "src/dsl")
 	       (:file "src/init/cl-project")
 	       (:file "src/generator")
-               (:file "src/cli"))
-  :depends-on ("quicklisp" "lisp-unit" "cl-ansi-text" "cl-json"))
+	       (:file "src/plugins/sh")
+	       (:file "src/server/serializer")
+	       (:file "src/server/hunchentoot")
+	       (:file "src/cli"))
+  :depends-on
+  ("quicklisp"
+   "lisp-unit"
+   "cl-ansi-text"
+   "cl-json"
+   "hunchentoot"
+   "xmls"
+   "drakma"))

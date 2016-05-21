@@ -35,6 +35,9 @@ See LICENSE for more information
     (let ((start-time (get-internal-run-time))
 	  (args (rest sb-ext:*posix-argv*)))
       (cond
+	((string= (first args) "--server")
+	 (with-project-definition (project :at-file "project.clpom.lisp")
+	   (start-server project)))
 	((string= (first args) "--init")
 	 (run-generator (second args)))
 	((string= (first args) "--install")
