@@ -31,4 +31,5 @@
    "cl-json"
    "hunchentoot"
    "xmls"
-   "drakma"))
+   "drakma"
+   "split-sequence"))

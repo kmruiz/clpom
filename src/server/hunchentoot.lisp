@@ -33,7 +33,7 @@ See LICENSE for more information
     (%answer (%cons-pairs (extras project))))
 
   (hunchentoot:define-easy-handler (task-execution :uri "/task") (name)
-    (%answer (list (cons :log (sh "clpom ~a" name)))))
+    (%answer (list (cons :log (split-sequence:split-sequence #\Newline (sh "clpom ~a" name))))))
 
   (hunchentoot:define-easy-handler (kill-server :uri "/bye") ()
     (stop-server))

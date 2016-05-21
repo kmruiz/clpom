@@ -28,7 +28,7 @@ See LICENSE for more information
 		    (listp x)
 		    (eql (first x) 'define)
 		    (eql (second x) :dependencies))
-		   (list 'define :dendencies
+		   (list 'define :dependencies
 			 `,(remove-duplicates
 			    (concatenate 'list '(list) (second (third x)) (list dependency)))))
 		  (t x)))
