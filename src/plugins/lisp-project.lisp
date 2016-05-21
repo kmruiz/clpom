@@ -56,14 +56,17 @@ See LICENSE for more information
 		  (ensure-directories-exist (format nil "build/~a/" version))
 		  (let ((pid (sb-posix:fork)))
 		    (cond
-		      ((zerop pid) 
-		       (sb-ext:save-lisp-and-die
-			(format nil "build/~a/~a" version (name project))
-			:executable t
-			:toplevel (find-symbol (string-upcase
-						(or (get-extra project :main-function) "main")) project-name)
-			:compression t
-			:purify t))
+		      ((zerop pid)
+		       (let ((toplevel (find-symbol
+					(string-upcase
+					 (or (get-extra project :main-function) "main")) project-name)))
+			 (sb-ext:save-lisp-and-die
+			  (format nil "build/~a/~a" version (name project))
+			  :executable t
+			  :toplevel toplevel
+			  :root-structures (list toplevel)
+			  :compression t
+			  :purify t)))
 		      ((plusp pid)
 		       (sb-posix:waitpid pid 0)))))))
     (add-task project "help"
