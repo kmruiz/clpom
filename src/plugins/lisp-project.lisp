@@ -32,7 +32,6 @@ See LICENSE for more information
     (add-task project "update"
 	      (lambda ($)
 		(let ((deps (get-extra project :dependencies)))
-		  (format t "deps ~a" deps)
 		  (loop for i in deps do (load-dependency i)))))
     (add-task project "upgrade"
 	      (lambda ($)
