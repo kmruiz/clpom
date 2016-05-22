@@ -10,7 +10,7 @@ See LICENSE for more information
   (parse-profile-string (sb-ext:posix-getenv "CLPOM_PROFILE")))
 
 (defun parse-profile-string (string)
-  (split-sequence:split-sequence "," string))
+  (split-sequence:split-sequence "," string :test 'string=))
 
 (defun on-profile (string)
   (let ((profile (string-upcase string)))
