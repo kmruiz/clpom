@@ -20,6 +20,7 @@
                (:file "src/dsl")
 	       (:file "src/init/cl-project")
 	       (:file "src/generator")
+	       (:file "src/profile")
 	       (:file "src/plugins/sh")
 	       (:file "src/server/serializer")
 	       (:file "src/server/hunchentoot")

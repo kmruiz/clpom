@@ -19,6 +19,11 @@ See LICENSE for more information
 	      (ql:quickload dependency))
 	    (plugin (plugin)
 	      (register-plugin project plugin)))
-       ,@body)
+       (macrolet ((on ((profile) &body body)
+		    `(when (on-profile ,profile)
+		       ,@body))
+		  (deftask ((name) &body body)
+		    `(task :name ,name :does (lambda (x) (declare (ignore x)) ,@body))))
+	 ,@body))
      project))
 
