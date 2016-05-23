@@ -5,7 +5,7 @@
 
 (defsystem clpom
   :name "clpom"
-  :version "1.1.0"
+  :version "2.0.0"
   :maintainer "Kevin Mas Ruiz"
   :author "Kevin Mas Ruiz <masruizkevin@gmail.com>"
   :licence "Apache2 License (view LICENSE for more info)"
