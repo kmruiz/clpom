@@ -22,6 +22,7 @@
 	       (:file "src/generator")
 	       (:file "src/profile")
 	       (:file "src/plugins/sh")
+	       (:file "src/plugins/dynamic-task-loader")
 	       (:file "src/server/serializer")
 	       (:file "src/server/hunchentoot")
 	       (:file "src/cli"))

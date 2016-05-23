@@ -21,6 +21,7 @@ See LICENSE for more information
        (t
 	(let ((,project (eval (read-from-string project-repr))))
 	  (log-info "Current project ~a" (%wrap-on-color :cyan (name ,project)))
+	  (load-tasks-from-directory ,project "project")
 	  ,@body)))))
 
 (defun do-tasks-at-file (file args)
