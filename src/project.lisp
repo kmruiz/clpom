@@ -10,7 +10,7 @@ See LICENSE for more information
 
 (defgeneric get-extra (project key))
 (defgeneric put-extra (project key value))
-(defgeneric add-task  (project task unit-of-work))
+(defgeneric add-task  (project task category unit-of-work))
 (defgeneric add-task-dependency (project task dependency))
 (defgeneric run-project-task (project task))
 (defgeneric register-plugin (project plugin))
@@ -42,16 +42,17 @@ See LICENSE for more information
 (defmethod put-extra ((project project) (key symbol) value)
   (setf (getf (extras project) key) value))
 
-(defmethod add-task ((project project) (task string) (unit-of-work function))
+(defmethod add-task ((project project) (task string) (category string) (unit-of-work function))
   (flet ((task-name-matches (task-ref)
 	   (string= (name task-ref) task)))
     (let ((task-ref (find-if #'task-name-matches (tasks project))))
       (cond
 	((null task-ref)
-	 (setq task-ref (make-task task))
+	 (setq task-ref (make-task task :category category))
 	 (push task-ref (tasks project))
 	 (push-step-back task-ref (make-task-step unit-of-work)))
 	(t
+	 (setf (category task-ref) category)
 	 (push-step-back task-ref (make-task-step unit-of-work)))))))
 
 (defmethod add-task-dependency ((project project) (task string) (dependency string))

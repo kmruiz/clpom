@@ -14,10 +14,11 @@ See LICENSE for more information
       (let ((end-time (get-internal-run-time)))
 	(write-tap-to-file r "build/test-results.tap")
 	(log-info "Ran ~d test~:p in ~f second~:p"
-		  (length (test-names r)) (/ (- end-time start-time) internal-time-units-per-second))
+		  (%wrap-on-color :green (length (test-names r)))
+		  (/ (- end-time start-time) internal-time-units-per-second))
 	(cond
 	  ((> error-count 0)
-	   (log-error "~d test~:p failed" error-count)
+	   (log-error "~d test~p failed" (%wrap-on-color :red error-count) error-count)
 	   (print-failures r)
 	   (print-errors r)
 	   nil)
@@ -25,23 +26,23 @@ See LICENSE for more information
 
 (defun lisp-project (project)
   (let ((project-name (intern (string-upcase (name project)))))
-    (add-task project "clean"
+    (add-task project "clean" "tools"
 	      (lambda ($)
 		(when (probe-file "build")
 		  (sb-ext:delete-directory "build" :recursive t))))
-    (add-task project "update"
+    (add-task project "update" "dependencies"
 	      (lambda ($)
 		(let ((deps (get-extra project :dependencies)))
 		  (loop for i in deps do (load-dependency i)))))
-    (add-task project "upgrade"
+    (add-task project "upgrade" "dependencies"
 	      (lambda ($)
 		(with-output-supression
 		  (ql:update-all-dists))))
-    (add-task project "load-system"
+    (add-task project "load-system" "tools"
 	      (lambda ($)
 		(load (format nil "~a.asd" (name project)) :verbose nil :print nil)
 		(asdf:load-system project-name)))
-    (add-task project "test"
+    (add-task project "test" "checks"
 	      (lambda ($)
 		(let ((d (make-pathname :directory '(:relative "test") :name :wild :type "lisp")))
 		  (mapcar (lambda (x) (unless (search "runner" (namestring x)) (load x))) (directory d))
@@ -50,7 +51,7 @@ See LICENSE for more information
 		      ((null r)
 		       (sb-ext:exit :code 1))
 		      (t t))))))
-    (add-task project "dist"
+    (add-task project "dist" "distribution"
 	      (lambda ($)
 		(let ((version (or (get-extra project :version) "default")))
 		  (ensure-directories-exist (format nil "build/~a/" version))
@@ -68,14 +69,7 @@ See LICENSE for more information
 			  :compression t
 			  :purify t)))
 		      ((plusp pid)
-		       (sb-posix:waitpid pid 0)))))))
-    (add-task project "help"
-	      (lambda ($)
-		(log-info "~a:~a task list" (name project) (get-extra project :version))
-		(log-info "~a" (get-extra project :description))
-		(loop
-		   for i in (sort (copy-list (map 'list #'name (tasks project))) #'string<)
-		   do (format t "~2a~a~%" "" i)))))
+		       (sb-posix:waitpid pid 0))))))))
 
   (add-task-dependency project "dist" "test")
   (add-task-dependency project "test" "load-system")

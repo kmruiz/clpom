@@ -15,7 +15,7 @@ See LICENSE for more information
        (let ((processed-file file) (extension (subseq file-name index-of-dot)))
 	 (cond
 	   ((string= extension ".sh")
-	    (add-task project (pathname-name processed-file)
+	    (add-task project (pathname-name processed-file) "shell"
 		      (lambda (x)
 			(declare (ignore x))
 			(log-info "Executing file ~a" (namestring processed-file))

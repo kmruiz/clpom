@@ -20,12 +20,12 @@ See LICENSE for more information
 	(log-error "Could not find file named ~a" ,at-file))
        (t
 	(let ((,project (eval (read-from-string project-repr))))
-	  (log-info "Current project ~a" (%wrap-on-color :cyan (name ,project)))
 	  (load-tasks-from-directory ,project "project")
 	  ,@body)))))
 
 (defun do-tasks-at-file (file args)
   (with-project-definition (project :at-file file)
+    (log-info "Current project ~a" (%wrap-on-color :cyan (name project)))
     (loop for i in args do (run-project-task project i))))
 
 (defun main ()
@@ -36,6 +36,11 @@ See LICENSE for more information
     (let ((start-time (get-internal-run-time))
 	  (args (rest sb-ext:*posix-argv*)))
       (cond
+	((string= (first args) "--register-autocomplete")
+	 (register-autocomplete))
+	((string= (first args) "--autocomplete")
+	 (with-project-definition (project :at-file "project.clpom.lisp")
+	   (format t "~{~a ~}~%" (match-all-tasks-for-project project (second args)))))
 	((string= (first args) "--server")
 	 (with-project-definition (project :at-file "project.clpom.lisp")
 	   (start-server project)))

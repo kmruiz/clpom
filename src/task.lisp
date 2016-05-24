@@ -30,6 +30,11 @@ See LICENSE for more information
     :reader name
     :type string
     :initarg :name)
+   (category
+    :accessor category
+    :reader category
+    :type string
+    :initarg :category)
    (dependencies
     :accessor dependencies
     :reader dependencies
@@ -43,8 +48,8 @@ See LICENSE for more information
     :initarg :steps
     :initform (list))))
 
-(defun make-task (name &optional &key (dependencies (list)) (steps (list)))
-  (make-instance 'task :name name :dependencies dependencies :steps steps))
+(defun make-task (name &optional &key (category "other") dependencies steps)
+  (make-instance 'task :name name :category category :dependencies dependencies :steps steps))
 
 (defmethod push-step-front ((task task) (step task-step))
   (setf (steps task) (append (list step) (steps task)))

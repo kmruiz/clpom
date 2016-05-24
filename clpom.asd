@@ -21,6 +21,7 @@
 	       (:file "src/init/cl-project")
 	       (:file "src/generator")
 	       (:file "src/profile")
+	       (:file "src/shell/autocomplete")
 	       (:file "src/plugins/sh")
 	       (:file "src/plugins/dynamic-task-loader")
 	       (:file "src/server/serializer")
