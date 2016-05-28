@@ -48,6 +48,20 @@ See LICENSE for more information
 	 (run-generator (second args)))
 	((string= (first args) "--install")
 	 (install-dependency (intern (string-upcase (format nil "~a" (second args))) :keyword)))
+	((= (length args) 0)
+	 (log-info "You entered in interactive mode, enter :exit to quit.")
+	 (loop for expression = (progn
+				  (format t (%wrap-on-color :cyan "$> "))
+				  (force-output)
+				  (read-line *standard-input* nil))
+	    when (string= expression ":exit")
+	    do (return-from main 0)
+	    else
+	    do (cond
+		 ((= (length expression) 0) t)
+		 ((string= expression "(" :end1 1) ;; lisp expression
+		  (format t "~a~%" (eval (read-from-string expression))))
+		 (t (do-tasks-at-file "project.clpom.lisp" (list expression))))))
 	(t 
 	 (do-tasks-at-file "project.clpom.lisp" args)
 	 (let ((end-time (get-internal-run-time)))
