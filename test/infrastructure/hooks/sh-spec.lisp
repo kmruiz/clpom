@@ -8,3 +8,6 @@ See LICENSE for more information
 
 (define-test sh-echo-should-print-output
     (assert-equal (format nil "Hi~%") (sh "echo ~a" "Hi")))
+
+(define-test sh-cat-number-should-print-number
+    (assert-false (string= "123456789" (sh "cat test/resources/number"))))
