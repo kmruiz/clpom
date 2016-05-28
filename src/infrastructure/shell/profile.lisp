@@ -7,10 +7,7 @@ See LICENSE for more information
 (in-package :clpom)
 
 (defun current-profile-list ()
-  (parse-profile-string (sb-ext:posix-getenv "CLPOM_PROFILE")))
-
-(defun parse-profile-string (string)
-  (split-sequence:split-sequence "," string :test 'string=))
+  (parse-profile-string (env/list "CLPOM_PROFILE")))
 
 (defun on-profile (string)
   (let ((profile (string-upcase string)))

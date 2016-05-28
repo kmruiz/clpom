@@ -12,7 +12,7 @@ See LICENSE for more information
 (defgeneric install-dependency (dependency))
 
 (defmethod load-dependency ((dependency symbol))
-  (log-info "Loading dependency ~a" (%wrap-on-color :cyan (string-downcase dependency)))
+  (log-trace "Loading dependency ~a" (%wrap-on-color :cyan (string-downcase dependency)))
   (with-open-stream (*standard-output* (+ql-output+))
     (ql:quickload dependency)))
 

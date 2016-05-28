@@ -18,7 +18,7 @@ See LICENSE for more information
 	    (add-task project (pathname-name processed-file) "shell"
 		      (lambda (x)
 			(declare (ignore x))
-			(log-info "Executing file ~a" (namestring processed-file))
+			(log-trace "Executing file ~a" (namestring processed-file))
 			(format t "~a" (sh "sh ~a" (namestring processed-file))))))
 	   ((string= extension ".lisp")
 	    (with-open-file (stream processed-file)

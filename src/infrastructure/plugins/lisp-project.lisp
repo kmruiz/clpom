@@ -44,8 +44,10 @@ See LICENSE for more information
 		(asdf:load-system project-name)))
     (add-task project "test" "checks"
 	      (lambda ($)
-		(let ((d (make-pathname :directory '(:relative "test") :name :wild :type "lisp")))
-		  (mapcar (lambda (x) (unless (search "runner" (namestring x)) (load x))) (directory d))
+		(let ((d (format nil "test/**/*.lisp")))
+		  (mapcar (lambda (x)
+			    (log-trace "Iterating on file ~a" x)
+			    (unless (search "runner" (namestring x)) (load x))) (directory d))
 		  (let ((r (run-tests! project-name)))
 		    (cond
 		      ((null r)

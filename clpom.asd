@@ -12,15 +12,15 @@
   :description "A project manager for Common Lisp"
   :serial t
   :components ((:file "src/package")
+               (:file "src/infrastructure/environment")
 	       (:file "src/infrastructure/logger")
-	       (:file "src/infrastructure/dependency-loader")
                (:file "src/domain/task")
                (:file "src/domain/project")
+	       (:file "src/infrastructure/dependency-loader")
                (:file "src/infrastructure/plugins/lisp-project")
-               (:file "src/infrastructure/shell/dsl")
 	       (:file "src/generator/cl-project")
 	       (:file "src/generator/generator")
-	       (:file "src/domain/profile")
+	       (:file "src/infrastructure/shell/profile")
 	       (:file "src/infrastructure/shell/autocomplete")
 	       (:file "src/infrastructure/hooks/sh")
 	       (:file "src/infrastructure/hooks/dynamic-task-loader")
