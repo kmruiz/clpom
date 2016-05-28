@@ -23,8 +23,8 @@ See LICENSE for more information
 (defun %log-level (string)
   (getf ref/log-levels (intern (string-upcase string))))
 
-(defun %should-print (status)
-  (let ((min-log (or (%log-level (env/string "CLPOM_LOG"))
+(defun %should-print (status &optional &key (min-log (env/string "CLPOM_LOG")))
+  (let ((min-log (or (%log-level min-log)
 		     (%log-level "INFO")))
 	(status-log (%log-level status)))
     (>= status-log min-log)))

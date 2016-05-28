@@ -46,7 +46,7 @@ See LICENSE for more information
 	      (lambda ($)
 		(let ((d (format nil "test/**/*.lisp")))
 		  (mapcar (lambda (x)
-			    (log-trace "Iterating on file ~a" x)
+			    (log-trace "Loading file ~a" x)
 			    (unless (search "runner" (namestring x)) (load x))) (directory d))
 		  (let ((r (run-tests! project-name)))
 		    (cond
