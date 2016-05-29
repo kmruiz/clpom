@@ -30,6 +30,11 @@ $> sbcl
 $> (load "clpom.asd")
 ```
 
+* Load CLPOM into SBCL
+```lisp
+$> (asdf:load-system :clpom)
+```
+
 * Scope in clpom package
 ```lisp
 $> (in-package :clpom)
