@@ -23,32 +23,10 @@ See LICENSE for more information
 (defparameter %file-color :blue)
 (defparameter %line-color :cyan)
 
-(defun %string-replace-all (string part replacement &key (test #'char=))
-  "Returns a new string in which all the occurences of the part 
-is replaced with replacement."
-  (with-output-to-string (out)
-    (loop with part-length = (length part)
-       for old-pos = 0 then (+ pos part-length)
-       for pos = (search part string
-			 :start2 old-pos
-			 :test test)
-       do (write-string string out
-			:start old-pos
-			:end (or pos (length string)))
-       when pos do (write-string replacement out)
-       while pos)))
-
 (defun %path-relative-to (base-dir full-file)
   (let ((file (namestring full-file)))
     (let ((fn-start (+ (search base-dir file) (length base-dir))))
       (subseq file fn-start))))
-
-(defun %class-for-file (base-dir full-file)
-  (let ((file (namestring full-file)))
-    (let* ((fn-start (+ (search base-dir file) (length base-dir)))
-	   (fn-end (search ".java" file))
-	   (relative (subseq file fn-start fn-end)))
-      (%string-replace-all relative "/" "."))))
 
 (defun %format-javac-output (output)
   (let ((input (make-string-input-stream output)))
@@ -104,9 +82,27 @@ is replaced with replacement."
 	    (lambda ($)
 	      (ensure-directories-exist "build/compile/")
 	      (let ((compiler-output
-		     (sh "javac -d build/compile/ ~{~a ~}" (directory "src/main/**/*.java"))))
+		     (sh "javac -d build/compile/ ~{~a ~}" (directory "src/main/java/**/*.java"))))
 		(when (search "error" compiler-output)
-		  (log-error "Could not generate jar. There are compiler errors")
+		  (log-error "Could not compile classes. There are compiler errors")
+		  (format t "~a" (%format-javac-output compiler-output))))))
+  (add-task project "compile-test" "build"
+	    (lambda ($)
+	      (ensure-directories-exist "build/test-compile/")
+	      (let* ((classpath (merge-directory-in-java-classpath
+				 (list "build/compile" "build/test-compile")
+				 ".clpom/library/"))
+		     (javac-command
+		      (format nil
+			      "javac -cp ~a -d build/test-compile/ ~{~a ~}"
+			      (classpath-string classpath)
+			      (directory "src/test/java/**/*.java")))
+		     (compiler-output
+		      (progn
+			(log-trace "Using javac command ~a" javac-command)
+			(sh javac-command))))
+		(when (search "error" compiler-output)
+		  (log-error "Could not compile test classes. There are compiler errors")
 		  (format t "~a" (%format-javac-output compiler-output))))))
   (add-task project "find-main-class" "build"
 	    (lambda ($)
@@ -151,6 +147,21 @@ is replaced with replacement."
 		(log-trace "Running jar ~a" output-jar)
 		(format t "~a" (sh "java -jar ~a" output-jar)))))
 
+  (add-task project "test" "check"
+	    (lambda ($)
+	      (let ((test-classes (find-test-classes "src/test/java/")))
+		(log-trace (format nil "Running test classes~%~{~a~%~}" test-classes))
+		(let ((output
+		       (run-tests-using-classpath
+			(merge-directory-in-java-classpath (list "build/compile" "build/test-compile") ".clpom/library/")
+			test-classes)))
+		  (cond
+		    ((search "FAILURES!!!" output)
+		     (log-error "There were test failures!")
+		     (format t "~a" output)
+		     (error 'simple-error))
+		    (t))))))
+  
   (add-task project "dist" "distribution" (lambda ($)))
   
   (add-task-dependency project "run-jar" "jar")
@@ -159,6 +170,11 @@ is replaced with replacement."
   (add-task-dependency project "dist" "jar-with-sources")
 
   (add-task-dependency project "jar" "find-main-class")
-  (add-task-dependency project "jar-with-sources" "clean")
-  (add-task-dependency project "find-main-class" "compile")
+  (add-task-dependency project "jar" "test")
+  
+  (add-task-dependency project "jar-with-sources" "jar")
+  (add-task-dependency project "find-main-class" "test")
+
+  (add-task-dependency project "test" "compile-test")
+  (add-task-dependency project "compile-test" "compile")
   (add-task-dependency project "compile" "clean"))

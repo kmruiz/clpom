@@ -28,6 +28,8 @@
 	       (:file "src/infrastructure/server/serializer")
 	       (:file "src/infrastructure/server/hunchentoot")
                (:file "src/infrastructure/plugins/lisp-project")
+               (:file "src/infrastructure/plugins/java/classpath")
+               (:file "src/infrastructure/plugins/java/test-runner")
                (:file "src/infrastructure/plugins/java-project")
 	       (:file "src/cli"))
   :depends-on

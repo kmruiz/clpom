@@ -73,7 +73,8 @@ See LICENSE for more information
 		 (let ((value (do-task-step task)))
 		   (push task done-list)
 		   value))))
-      (apply-task task))))
+      (handler-case (apply-task task)
+	(error () (log-error "Failure calling task."))))))
 
 (defmethod task-depends-on ((parent task) (task task))
   (setf (dependencies parent) (append (dependencies parent) (list task))))
