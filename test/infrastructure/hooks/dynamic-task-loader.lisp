@@ -6,7 +6,7 @@ See LICENSE for more information
 
 (in-package :clpom)
 
-(defconstant +dtl-directory+ "test/resources/dynamic-task-loader")
+(defparameter +dtl-directory+ "test/resources/dynamic-task-loader")
 
 (define-test dynamic-task-loader-should-load-tasks-as-shell-scripts
     (let ((project (make-project "test")) called)

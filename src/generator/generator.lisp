@@ -9,6 +9,7 @@ See LICENSE for more information
 (defun call-project-generator (name project-name project-description)
   (cond
     ((string= name "lisp") (generate-lisp-project project-name project-description))
+    ((string= name "java") (generate-java-project project-name project-description))
     (t (log-error "Invalid project generator ~a" name))))
 
 (defun generate-project-in-place (name project-name project-description)
@@ -22,6 +23,7 @@ See LICENSE for more information
 				  :if-does-not-exist :create
 				  :if-exists :overwrite)
 	    (cond
+	      ((stringp code) (format stream "~a~&" code))
 	      ((eql (first code) 'flatten-in)
 	       (loop for i in (rest code) do
 		    (progn

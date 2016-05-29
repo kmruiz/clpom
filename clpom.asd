@@ -17,22 +17,26 @@
                (:file "src/domain/task")
                (:file "src/domain/project")
 	       (:file "src/infrastructure/dependency-loader")
-               (:file "src/infrastructure/plugins/lisp-project")
 	       (:file "src/generator/cl-project")
+	       (:file "src/generator/java-project")
 	       (:file "src/generator/generator")
 	       (:file "src/infrastructure/shell/profile")
 	       (:file "src/infrastructure/shell/autocomplete")
+	       (:file "src/infrastructure/shell/dsl")
 	       (:file "src/infrastructure/hooks/sh")
 	       (:file "src/infrastructure/hooks/dynamic-task-loader")
 	       (:file "src/infrastructure/server/serializer")
 	       (:file "src/infrastructure/server/hunchentoot")
+               (:file "src/infrastructure/plugins/lisp-project")
+               (:file "src/infrastructure/plugins/java-project")
 	       (:file "src/cli"))
   :depends-on
   ("quicklisp"
    "lisp-unit"
    "cl-ansi-text"
-   "cl-json"
    "hunchentoot"
    "xmls"
    "drakma"
-   "split-sequence"))
+   "split-sequence"
+   "zip"
+   "cl-json"))

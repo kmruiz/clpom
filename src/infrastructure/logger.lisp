@@ -7,6 +7,7 @@ See LICENSE for more information
 (in-package :clpom)
 
 (defconstant +default-color+ cl-ansi-text:+reset-color-string+)
+(defparameter *default-log-level* "INFO")
 (defparameter ref/log-levels ())
 
 (defmacro with-output-supression (&body body)
@@ -25,7 +26,7 @@ See LICENSE for more information
 
 (defun %should-print (status &optional &key (min-log (env/string "CLPOM_LOG")))
   (let ((min-log (or (%log-level min-log)
-		     (%log-level "INFO")))
+		     (%log-level (or *default-log-level* "INFO"))))
 	(status-log (%log-level status)))
     (>= status-log min-log)))
 

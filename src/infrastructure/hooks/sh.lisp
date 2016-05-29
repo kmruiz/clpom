@@ -9,4 +9,8 @@ See LICENSE for more information
 (defun sh (command &rest arguments)
   (let ((cmd (apply 'format (concatenate 'list (list nil command) arguments))))
     (with-output-to-string (output) 
-      (uiop:run-program cmd :force-shell t :output output))))
+      (uiop:run-program cmd
+			:ignore-error-status t
+			:force-shell t
+			:output output
+			:error-output output))))

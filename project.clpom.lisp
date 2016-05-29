@@ -2,5 +2,5 @@
   (plugin #'lisp-project)
   (define :version "2.0.0")
   (define :description "Basic Project Object Model management")
-  (define :dependencies (list :lisp-unit :cl-ansi-text :cl-json :split-sequence :drakma :hunchentoot))
+  (define :dependencies '(:lisp-unit :cl-ansi-text :split-sequence :drakma :hunchentoot :zip :cl-json))
   (requires :task "update" :the-dependency "clean"))

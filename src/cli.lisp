@@ -56,6 +56,9 @@ See LICENSE for more information
 				  (read-line *standard-input* nil))
 	    when (string= expression ":exit")
 	    do (return-from main 0)
+	    when (string= expression ":log" :end1 4)
+	    do (let ((log-level (second (split-sequence:split-sequence expression " "))))
+		 (setq *default-log-level* log-level))
 	    else
 	    do (cond
 		 ((= (length expression) 0) t)
