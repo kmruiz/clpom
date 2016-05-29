@@ -25,6 +25,19 @@ without clpom
 $> sbcl
 ```
 
+* Download all CLPOM dependencies
+```sh
+$> (ql:quickload '("quicklisp"
+   "lisp-unit"
+   "cl-ansi-text"
+   "hunchentoot"
+   "xmls"
+   "drakma"
+   "split-sequence"
+   "zip"
+   "cl-json"))
+```
+
 * Load the system file into SBCL
 ```lisp
 $> (load "clpom.asd")
