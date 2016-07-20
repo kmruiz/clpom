@@ -32,3 +32,14 @@ SH Native Support
 -----------------
 
 ![SH Native Support](doc/gif/video-sh-import.gif "SH Native Support")
+
+Server Mode
+-----------
+
+### Get Task List
+
+![Task List from Server](doc/gif/video-get-task-list-server.gif "Task List from Server")
+
+### Get Project Extras
+
+![Project Extras from Server](doc/gif/video-get-project-extras.gif "Project Extras from Server")
