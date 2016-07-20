@@ -16,4 +16,8 @@ Fast Start (Common Lisp)
 
 ![Common Lisp Generator](doc/gif/video-common-lisp-generator.gif "Fast Start (CL)")
 
+Fast Start (Java :warning: In development :warning:)
+---------------------------------------------------
+
+![Java Generator](doc/gif/video-java-generator.gif "Fast Start (Java)")
 
