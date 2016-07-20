@@ -45,12 +45,3 @@ See LICENSE for more information
 				do (log-info "~31a ******" (%wrap-on-color :magenta task)))))))
 	 ,@body))
      project))
-
-
-(defparameter sample
-  (list
-   (make-task "1" :category "number")
-   (make-task "2" :category "number")
-   (make-task "a" :category "letter")
-   (make-task "b" :category "letter")
-   (make-task "1a" :category "mixed")))

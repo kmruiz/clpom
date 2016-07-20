@@ -13,15 +13,15 @@ A simple polyglot project manager written in Common Lisp.
 * [x] Support SH as dynamic native tasks
 * [x] Native task name autocomplete
 
-Fast Start (Common Lisp)
+Quick Start (Common Lisp)
 ------------------------
 
-![Common Lisp Generator](doc/gif/video-common-lisp-generator.gif "Fast Start (CL)")
+![Common Lisp Generator](doc/gif/video-common-lisp-generator.gif "Quick Start (CL)")
 
-Fast Start (Java :warning: In development :warning:)
+Quick Start (Java :warning: In development :warning:)
 ---------------------------------------------------
 
-![Java Generator](doc/gif/video-java-generator.gif "Fast Start (Java)")
+![Java Generator](doc/gif/video-java-generator.gif "Quick Start (Java)")
 
 Interactive Mode
 ----------------
