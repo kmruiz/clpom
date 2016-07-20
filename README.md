@@ -10,6 +10,7 @@ A simple polyglot project manager written in Common Lisp.
 * [x] Project generators
 * [x] Interactive
 * [x] Headless remote mode, exposing an HTTP Server
+* [x] Support SH as dynamic native tasks
 
 Fast Start (Common Lisp)
 ------------------------
@@ -20,4 +21,9 @@ Fast Start (Java :warning: In development :warning:)
 ---------------------------------------------------
 
 ![Java Generator](doc/gif/video-java-generator.gif "Fast Start (Java)")
+
+Interactive Mode
+----------------
+
+![Interactive Mode](doc/gif/video-interactive.gif "Interactive Mode")
 
