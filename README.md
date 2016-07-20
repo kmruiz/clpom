@@ -43,3 +43,7 @@ Server Mode
 ### Get Project Extras
 
 ![Project Extras from Server](doc/gif/video-get-project-extras.gif "Project Extras from Server")
+
+### Run Task
+
+![Run Task from Server](doc/gif/video-run-task-server.gif "Run Task From Server")
